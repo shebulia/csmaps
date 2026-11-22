@@ -76,7 +76,7 @@ p{line-height:1.55}
 <aside class="side">
 
 <section class="panel" id="chooser"><div class="eyebrow">Choose a country</div><h2>Four nations</h2><p>Select a country on the map or from the list.</p><div id="buttons"></div></section>
-<p class="note">UK boundaries: jhellingsdata/map-data. Republic of Ireland: simplified GeoJSON outline (johan/world.geo.json).</p>
+<p class="note">UK boundaries: jhellingsdata/map-data. Republic of Ireland: Natural Earth GeoJSON coastline.</p>
 </aside>
 </div>
 </main><div id="modal" class="modal-backdrop" aria-hidden="true"><section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="country-name"><button class="modal-close" id="close" aria-label="Close country information">×</button><div id="modal-accent" class="modal-accent"></div><div class="eyebrow" style="margin-top:18px">Country profile · UK</div><h2 id="country-name"></h2><p id="country-intro"></p><div id="facts"></div></section></div>
@@ -113,7 +113,7 @@ async function init(){
     key:{"England":"eng","Scotland":"sco","Wales":"wal","Northern Ireland":"ni"}[geometry.properties.name],
     polygons:geometry.type==="Polygon"?[ringsOf(geometry.arcs)]:geometry.arcs.map(ringsOf)
   }));
-  const irelandRings=irelandGeo.features[0].geometry.coordinates;const coordinates=shapes.flatMap(shape=>shape.polygons.flat(2)).concat(irelandRings.flat());
+  const irelandGeometry=irelandGeo.features[0].geometry;const irelandPolygons=irelandGeometry.type==="MultiPolygon"?irelandGeometry.coordinates:[irelandGeometry.coordinates];const coordinates=shapes.flatMap(shape=>shape.polygons.flat(2)).concat(irelandPolygons.flat(2));
   const lons=coordinates.map(p=>p[0]),lats=coordinates.map(p=>p[1]);
   const minX=Math.min(...lons),maxX=Math.max(...lons),minY=Math.min(...lats),maxY=Math.max(...lats);
   const cos=Math.cos(54*Math.PI/180),scale=Math.min(570/((maxX-minX)*cos),580/(maxY-minY));
@@ -122,10 +122,10 @@ async function init(){
   const irelandGroup=document.createElementNS(NS,"g");
   irelandGroup.setAttribute("aria-label","Republic of Ireland — outside the UK");
   irelandGroup.setAttribute("pointer-events","none");
-  for(const ring of irelandRings){
+  for(const polygon of irelandPolygons){
     const path=document.createElementNS(NS,"path");
-    path.setAttribute("d",ring.map((point,i)=>{const [x,y]=project(point);return(i?"L":"M")+x.toFixed(2)+" "+y.toFixed(2)}).join(" ")+" Z");
-    path.setAttribute("fill","#c5cbd0");
+    path.setAttribute("d",polygon.map(ring=>ring.map((point,i)=>{const [x,y]=project(point);return(i?"L":"M")+x.toFixed(2)+" "+y.toFixed(2)}).join(" ")+" Z").join(" "));
+    path.setAttribute("fill","#c5cbd0");path.setAttribute("fill-rule","evenodd");
     path.setAttribute("stroke","#fff");
     path.setAttribute("stroke-width","0.8");
     irelandGroup.append(path);
