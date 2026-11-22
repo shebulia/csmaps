@@ -6,16 +6,62 @@
 <meta name="theme-color" content="#f7f8fa">
 <title>UK Country Studies — Interactive Map</title>
 <style>
-:root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#182536;background:#f7f8fa}*{box-sizing:border-box}body{margin:0}button{font:inherit}header{padding:22px clamp(20px,5vw,72px);border-bottom:1px solid #e5e9ee;background:white;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-size:19px;font-weight:800;letter-spacing:-.04em}.brand span{color:#4d77a9}.tag{font-size:12px;font-weight:700;letter-spacing:.08em;color:#687b90;text-transform:uppercase}main{max-width:1350px;margin:auto;padding:36px 24px 48px}h1{font-size:clamp(30px,4vw,49px);letter-spacing:-.055em;line-height:1.1;margin:8px 0 12px}p{line-height:1.6}.subtitle{color:#69798b;margin:0 0 26px}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:22px}.map-shell{position:relative;background:#eaf1f5;border:1px solid #dce6ed;border-radius:22px;overflow:hidden;min-height:650px;display:flex;align-items:center;justify-content:center}.map-shell svg{width:100%;height:650px;display:block;touch-action:manipulation}.nation{cursor:pointer;transition:opacity .2s,filter .2s;outline:none}.nation:hover,.nation:focus-visible{filter:brightness(1.08)}.nation.selected{filter:drop-shadow(0 2px 7px #223b5b66)}.nation path{stroke-linejoin:round;stroke-linecap:round}.loading{position:absolute;background:#ffffffed;padding:14px 20px;border-radius:12px;color:#43586d;box-shadow:0 6px 24px #1b3e5515}.legend{position:absolute;left:18px;bottom:18px;background:#fffffff0;border:1px solid #e2e8ee;padding:12px 15px;border-radius:14px;display:grid;gap:8px;font-size:12px}.legend div{display:flex;align-items:center;gap:9px}.dot{height:11px;width:11px;border-radius:3px;display:inline-block}.side{display:flex;flex-direction:column;gap:16px}.panel{background:white;border:1px solid #e4e9ee;border-radius:20px;padding:23px;box-shadow:0 8px 28px #20384b08}.eyebrow{font-size:11px;letter-spacing:.12em;font-weight:800;text-transform:uppercase;color:#71839a;margin:0 0 12px}.panel h2{font-size:27px;letter-spacing:-.045em;margin:0 0 10px}.panel p{font-size:14px;color:#607286;margin:0}.fact{padding:13px 0;border-bottom:1px solid #edf0f3}.fact:last-child{border-bottom:0}.fact b{display:block;color:#1d2e40;font-size:13px;margin-bottom:3px}.fact span{font-size:14px;color:#617286}.nation-button{width:100%;text-align:left;padding:12px 14px;border:1px solid #e2e9ef;background:#fff;border-radius:12px;cursor:pointer;font-weight:650;margin-top:9px;display:flex;justify-content:space-between;align-items:center}.nation-button:hover,.nation-button.active{background:#f0f5fa;border-color:#a7c2dc}.close{border:0;background:#edf3f8;border-radius:8px;padding:7px 11px;cursor:pointer;float:right}.note{font-size:12px;color:#8090a0;margin:0 4px}#details[hidden]{display:none}.map-error{max-width:340px;text-align:center}.map-error button{margin-top:10px;border:0;background:#254b73;color:white;border-radius:8px;padding:10px 14px;cursor:pointer}@media(max-width:900px){.workspace{grid-template-columns:1fr}.map-shell{min-height:500px}.map-shell svg{height:540px}.side{display:grid;grid-template-columns:1fr 1fr}}@media(max-width:600px){header{padding:18px}.tag{font-size:10px}main{padding:24px 14px}.map-shell{min-height:460px}.map-shell svg{height:480px}.side{display:flex}.legend{left:10px;bottom:10px;padding:10px}.panel{padding:18px}}
-.nation path{transition:fill .22s ease,stroke-width .22s ease,filter .22s ease}.nation:hover path,.nation:focus-visible path{filter:brightness(1.08)}.nation.selected path{stroke:#183e60;stroke-width:2.5;filter:brightness(1.12)}.modal-backdrop{position:fixed;inset:0;z-index:1000;background:#0d203e80;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}.modal-backdrop.open{opacity:1;visibility:visible}.modal-card{width:min(100%,480px);max-height:min(85vh,720px);overflow-y:auto;background:white;border-radius:24px;padding:26px;box-shadow:0 24px 80px #00162e50;transform:translateY(22px) scale(.97);transition:transform .27s cubic-bezier(.2,.8,.2,1);position:relative}.modal-backdrop.open .modal-card{transform:translateY(0) scale(1)}.modal-card h2{font-size:30px;margin:8px 0}.modal-card p{color:#64758a}.modal-close{position:absolute;right:20px;top:18px;border:0;background:#eff3f7;border-radius:50%;width:36px;height:36px;cursor:pointer;font-size:18px}.modal-accent{width:46px;height:5px;border-radius:5px;background:#88b8aa}.modal-card .fact{padding:11px 0}@media(prefers-reduced-motion:reduce){.modal-backdrop,.modal-card,.nation path{transition:none}}@media(max-width:600px){.modal-backdrop{align-items:flex-end;padding:0}.modal-card{width:100%;max-height:85dvh;border-radius:24px 24px 0 0;transform:translateY(100%)}} 
+:root{font-family:Arial,Helvetica,sans-serif;color:#222a32;background:#fff}
+*{box-sizing:border-box}
+body{margin:0}
+button{font:inherit}
+header{height:62px;border-bottom:1px solid #d9dfe2;padding:0 clamp(18px,4vw,54px);display:flex;align-items:center;justify-content:space-between;gap:15px}
+.brand{font-size:16px;font-weight:700;letter-spacing:0}
+.brand span{color:inherit}
+.tag{font-size:11px;color:#67747d;letter-spacing:.035em;text-transform:uppercase}
+main{max-width:1220px;margin:auto;padding:36px 24px 60px}
+h1{font-size:clamp(27px,3.5vw,38px);font-weight:600;letter-spacing:-.025em;line-height:1.2;margin:10px 0}
+p{line-height:1.55}
+.subtitle{font-size:15px;color:#586773;margin:0 0 25px}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:26px;align-items:start}
+.map-shell{position:relative;background:#f4f7f7;border:1px solid #dbe1e3;min-height:650px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.map-shell svg{width:100%;height:650px;display:block;touch-action:manipulation}
+.nation{cursor:pointer;outline:none}
+.nation path{stroke-linejoin:round;stroke-linecap:round;transition:filter .16s,stroke-width .16s}
+.nation:hover path,.nation:focus-visible path{filter:brightness(.94)}
+.nation.selected path{stroke:#273c4d;stroke-width:2.3;filter:brightness(.96)}
+.loading{position:absolute;background:white;padding:12px 16px;border:1px solid #d9dfe2;color:#435360;font-size:13px}
+.legend{position:absolute;bottom:15px;left:15px;background:#fff;border:1px solid #dbe1e3;padding:12px 15px;display:grid;gap:9px;font-size:12px}
+.legend div{display:flex;align-items:center;gap:8px}
+.dot{width:10px;height:10px;display:inline-block}
+.side{display:flex;flex-direction:column;gap:14px}
+.panel{padding:0;background:transparent;border:0}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:#667781;font-weight:600;margin:0 0 12px}
+.panel h2{font-size:19px;letter-spacing:0;font-weight:600;margin:0 0 9px}
+.panel p{font-size:13px;color:#65737d;margin:0 0 16px}
+.nation-button{width:100%;text-align:left;background:#fff;border:0;border-bottom:1px solid #dfe4e6;padding:14px 2px;cursor:pointer;font-size:14px;color:#263743}
+.nation-button:hover,.nation-button.active{background:#f3f6f6}
+.fact{padding:12px 0;border-bottom:1px solid #e2e6e8}
+.fact:last-child{border-bottom:0}
+.fact b{display:block;font-size:12px;color:#33434d;margin-bottom:4px}
+.fact span{font-size:14px;color:#52616b}
+.note{font-size:11px;color:#7a858b;line-height:1.5;margin:5px 0}
+.modal-backdrop{position:fixed;inset:0;z-index:1000;background:#1c283d80;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .18s,visibility .18s}
+.modal-backdrop.open{opacity:1;visibility:visible}
+.modal-card{position:relative;width:min(100%,480px);max-height:85vh;overflow-y:auto;background:white;border:1px solid #dce2e5;padding:30px;transform:translateY(10px);transition:transform .18s}
+.modal-backdrop.open .modal-card{transform:translateY(0)}
+.modal-card h2{font-size:27px;font-weight:600;margin:10px 0}
+.modal-card p{font-size:14px;color:#5a6973;line-height:1.6}
+.modal-close{position:absolute;right:16px;top:14px;border:0;background:transparent;color:#3b4c58;width:36px;height:36px;cursor:pointer;font-size:24px}
+.modal-close:hover{background:#f0f2f3}
+.modal-accent{height:3px;width:36px;background:#88b8aa}
+.modal-card .eyebrow{margin-top:20px}
+@media(max-width:850px){.workspace{grid-template-columns:1fr}.map-shell{min-height:520px}.map-shell svg{height:540px}.side{gap:12px}}
+@media(max-width:600px){header{height:56px;padding:0 16px}main{padding:26px 15px 45px}.map-shell{min-height:480px}.map-shell svg{height:480px}.legend{bottom:10px;left:10px;padding:10px}.modal-backdrop{align-items:flex-end;padding:0}.modal-card{width:100%;max-height:85dvh;padding:26px 22px;border:0;border-top:1px solid #dce2e5;transform:translateY(100%)}}
+@media(prefers-reduced-motion:reduce){.modal-backdrop,.modal-card,.nation path{transition:none}}
 </style>
 </head>
 <body>
-<header><div class="brand">UK <span>Country Studies</span></div><div class="tag">English Olympiad · Geography</div></header>
+<header><div class="brand">UK <span>Country Studies</span></div><div class="tag">Geography reference</div></header>
 <main>
-<div class="tag">Interactive atlas / United Kingdom</div>
+<div class="tag">United Kingdom / Political geography</div>
 <h1>Explore the United Kingdom</h1>
-<p class="subtitle">Four constituent countries. Select a country on the map to explore its geography, culture and key facts.</p>
+<p class="subtitle">Select a country to view its capital, geography and cultural facts.</p>
 <div class="workspace">
 <section class="map-shell" aria-label="Interactive map of the four UK countries">
 <svg id="map" viewBox="0 0 760 650" role="group" aria-label="Map of England, Scotland, Wales and Northern Ireland"></svg>
@@ -29,7 +75,7 @@
 </section>
 <aside class="side">
 
-<section class="panel" id="chooser"><div class="eyebrow">Choose a country</div><h2>Four nations</h2><p>Click a coloured area or select a country below.</p><div id="buttons"></div></section>
+<section class="panel" id="chooser"><div class="eyebrow">Choose a country</div><h2>Four nations</h2><p>Select a country on the map or from the list.</p><div id="buttons"></div></section>
 <p class="note">Geographic boundaries: UK countries TopoJSON, jhellingsdata/map-data (ONS-derived).</p>
 </aside>
 </div>
