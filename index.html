@@ -1,61 +1,70 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#102a43">
-  <title>UK Map Lab — политическая карта Великобритании</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-  <style>
-    :root{color-scheme:light;--navy:#102a43;--blue:#176b87;--mint:#dff3ea;--gold:#e8b44a;--paper:#f5f7f5;--ink:#172b3a;--muted:#617381;--line:#dce5e4}
-    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-    header{background:linear-gradient(120deg,#102a43,#176b87);color:white;padding:22px max(20px,calc((100vw - 1320px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px}
-    .brand{font-weight:800;letter-spacing:.02em;font-size:1.15rem}.brand span{color:#ffd47d}.eyebrow{font-size:.77rem;letter-spacing:.14em;text-transform:uppercase;opacity:.78;margin:0 0 4px}
-    main{max-width:1320px;padding:24px 20px 36px;margin:auto}.intro{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:18px}.intro h1{font-size:clamp(1.7rem,3vw,2.4rem);line-height:1.1;margin:0 0 8px;color:var(--navy)}.intro p{margin:0;color:var(--muted);max-width:680px}.badge{white-space:nowrap;background:var(--mint);color:#175b49;border-radius:999px;padding:7px 12px;font-size:.85rem;font-weight:700}
-    .layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px}.map-card,.panel{background:white;border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 26px #102a4310;overflow:hidden}.map-top{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}.map-top strong{color:var(--navy)}#map{height:min(72vh,760px);min-height:480px;background:#e8f0ed}.map-note{padding:9px 14px;color:var(--muted);font-size:.78rem;border-top:1px solid var(--line)}
-    .panel{padding:18px;align-self:start}.panel h2{font-size:1.05rem;margin:0 0 12px;color:var(--navy)}label{display:block;font-size:.86rem;font-weight:700;margin:14px 0 6px}select,button{font:inherit}select{width:100%;padding:10px 12px;border:1px solid #cbd8d8;border-radius:9px;background:white;color:var(--ink)}button{border:0;border-radius:9px;padding:10px 13px;font-weight:750;cursor:pointer;transition:transform .12s,filter .12s}button:hover{filter:brightness(.96);transform:translateY(-1px)}button:focus-visible,select:focus-visible{outline:3px solid #8ccfbd;outline-offset:2px}.primary{background:var(--navy);color:white;width:100%;margin-top:12px}.secondary{background:#edf3f2;color:var(--navy)}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.status{background:#f2f6f5;border-radius:11px;padding:12px;margin:14px 0;color:var(--muted);font-size:.9rem;min-height:76px}.status b{color:var(--navy)}.status.success{background:#e5f6ec;color:#17633f}.status.error{background:#fff0eb;color:#9b3d25}.legend{display:grid;gap:8px;margin-top:18px}.legend-row{display:flex;gap:9px;align-items:center;color:var(--muted);font-size:.88rem}.swatch{width:14px;height:14px;border:1px solid #28485766;border-radius:4px;flex:none}.tip{font-size:.8rem;color:var(--muted);margin:14px 0 0}.attribution{font-size:.75rem;color:var(--muted);margin-top:14px}.loading{position:absolute;z-index:500;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;padding:12px 16px;border-radius:10px;box-shadow:0 2px 14px #0002}
-    .leaflet-tooltip{font-weight:700}.leaflet-popup-content{font-size:.95rem}.leaflet-container{font-family:inherit}
-    @media(max-width:850px){.layout{grid-template-columns:1fr}.panel{order:-1}.intro{align-items:start;flex-direction:column}.badge{white-space:normal}#map{height:60vh;min-height:420px}}
-    @media(max-width:520px){header{padding:16px 18px}main{padding:18px 12px 28px}.map-top{align-items:start;flex-direction:column}#map{min-height:360px}.panel{padding:15px}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f8fa">
+<title>UK Country Studies — Interactive Map</title>
+<style>
+:root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#182536;background:#f7f8fa}*{box-sizing:border-box}body{margin:0}button{font:inherit}header{padding:22px clamp(20px,5vw,72px);border-bottom:1px solid #e5e9ee;background:white;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{font-size:19px;font-weight:800;letter-spacing:-.04em}.brand span{color:#4d77a9}.tag{font-size:12px;font-weight:700;letter-spacing:.08em;color:#687b90;text-transform:uppercase}main{max-width:1350px;margin:auto;padding:36px 24px 48px}h1{font-size:clamp(30px,4vw,49px);letter-spacing:-.055em;line-height:1.1;margin:8px 0 12px}p{line-height:1.6}.subtitle{color:#69798b;margin:0 0 26px}.workspace{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:22px}.map-shell{position:relative;background:#eaf1f5;border:1px solid #dce6ed;border-radius:22px;overflow:hidden;min-height:650px;display:flex;align-items:center;justify-content:center}.map-shell svg{width:100%;height:650px;display:block;touch-action:manipulation}.nation{cursor:pointer;transition:opacity .2s,filter .2s;outline:none}.nation:hover,.nation:focus-visible{filter:brightness(1.08)}.nation.selected{filter:drop-shadow(0 2px 7px #223b5b66)}.nation path{stroke-linejoin:round;stroke-linecap:round}.loading{position:absolute;background:#ffffffed;padding:14px 20px;border-radius:12px;color:#43586d;box-shadow:0 6px 24px #1b3e5515}.legend{position:absolute;left:18px;bottom:18px;background:#fffffff0;border:1px solid #e2e8ee;padding:12px 15px;border-radius:14px;display:grid;gap:8px;font-size:12px}.legend div{display:flex;align-items:center;gap:9px}.dot{height:11px;width:11px;border-radius:3px;display:inline-block}.side{display:flex;flex-direction:column;gap:16px}.panel{background:white;border:1px solid #e4e9ee;border-radius:20px;padding:23px;box-shadow:0 8px 28px #20384b08}.eyebrow{font-size:11px;letter-spacing:.12em;font-weight:800;text-transform:uppercase;color:#71839a;margin:0 0 12px}.panel h2{font-size:27px;letter-spacing:-.045em;margin:0 0 10px}.panel p{font-size:14px;color:#607286;margin:0}.fact{padding:13px 0;border-bottom:1px solid #edf0f3}.fact:last-child{border-bottom:0}.fact b{display:block;color:#1d2e40;font-size:13px;margin-bottom:3px}.fact span{font-size:14px;color:#617286}.nation-button{width:100%;text-align:left;padding:12px 14px;border:1px solid #e2e9ef;background:#fff;border-radius:12px;cursor:pointer;font-weight:650;margin-top:9px;display:flex;justify-content:space-between;align-items:center}.nation-button:hover,.nation-button.active{background:#f0f5fa;border-color:#a7c2dc}.close{border:0;background:#edf3f8;border-radius:8px;padding:7px 11px;cursor:pointer;float:right}.note{font-size:12px;color:#8090a0;margin:0 4px}#details[hidden]{display:none}.map-error{max-width:340px;text-align:center}.map-error button{margin-top:10px;border:0;background:#254b73;color:white;border-radius:8px;padding:10px 14px;cursor:pointer}@media(max-width:900px){.workspace{grid-template-columns:1fr}.map-shell{min-height:500px}.map-shell svg{height:540px}.side{display:grid;grid-template-columns:1fr 1fr}}@media(max-width:600px){header{padding:18px}.tag{font-size:10px}main{padding:24px 14px}.map-shell{min-height:460px}.map-shell svg{height:480px}.side{display:flex}.legend{left:10px;bottom:10px;padding:10px}.panel{padding:18px}}
+</style>
 </head>
 <body>
-  <header><div><p class="eyebrow">Geography · English · Quiz</p><div class="brand">UK <span>Map Lab</span></div></div><div>Подготовка к олимпиадам</div></header>
-  <main>
-    <section class="intro"><div><h1>Политическая карта Великобритании</h1><p>Изучайте административные области и проверяйте себя: найдите нужный регион, графство или район.</p></div><div class="badge">United Kingdom · Interactive study map</div></section>
-    <div class="layout">
-      <section class="map-card" aria-label="Интерактивная карта"><div class="map-top"><strong id="map-heading">Великобритания и Северная Ирландия</strong><span id="region-count" aria-live="polite">Загрузка границ…</span></div><div id="map" role="application" aria-label="Карта административных областей Великобритании"><div class="loading" id="loading">Загружаем карту…</div></div><div class="map-note">Нажмите на область, чтобы увидеть название.</div></section>
-      <aside class="panel"><h2>Режим тренировки</h2>
-        <label for="nation">Часть страны</label><select id="nation"><option value="all">Вся Великобритания</option><option value="eng">England</option><option value="sco">Scotland</option><option value="wal">Wales</option><option value="ni">Northern Ireland</option></select>
-        <div class="actions"><button class="secondary" id="study">Изучать</button><button class="secondary" id="fit">Вся карта</button></div>
-        <button class="primary" id="start">Начать викторину</button>
-        <div class="status" id="status" aria-live="polite">Выберите часть страны или начните викторину.</div>
-        <div class="legend"><h2>Части Соединённого Королевства</h2><div class="legend-row"><i class="swatch" style="background:#8fc9b5"></i>England</div><div class="legend-row"><i class="swatch" style="background:#8fb6df"></i>Scotland</div><div class="legend-row"><i class="swatch" style="background:#e9c878"></i>Wales</div><div class="legend-row"><i class="swatch" style="background:#d9a4a0"></i>Northern Ireland</div></div>
-        <p class="attribution">Границы: <a href="https://github.com/martinjc/UK-GeoJSON" target="_blank" rel="noreferrer">UK-GeoJSON</a> (ONS). Карта: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap</a>.</p>
-      </aside>
-    </div>
-  </main>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script>
-    const DATA={eng:{label:'England',url:'https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/administrative/eng/lad.json',color:'#8fc9b5'},sco:{label:'Scotland',url:'https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/administrative/sco/lad.json',color:'#8fb6df'},wal:{label:'Wales',url:'https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/administrative/wal/lad.json',color:'#e9c878'},ni:{label:'Northern Ireland',url:'https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/administrative/ni/lgd.json',color:'#d9a4a0'}};
-    const map=L.map('map',{zoomControl:true}).setView([54.5,-3.3],5);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
-    const layers={},allFeatures=[];let quizTarget=null,quizActive=false,currentNation='all';
-    const styleFor=n=>({color:'#314e5b',weight:1,opacity:.9,fillColor:DATA[n].color,fillOpacity:.55});
-    function featureName(feature){const p=feature.properties||{};return p.LAD23NM||p.LAD22NM||p.LAD21NM||p.LGDNAME||p.LGDNAME22||p.lad_name||p.name||p.NAME||p.Name||p.NAME_1||Object.values(p).find(v=>typeof v==='string'&&v.length>2)||'Unknown area'}
-    function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39'}[c]))}
-    function setStatus(html,kind=''){const el=document.getElementById('status');el.className='status '+kind;el.innerHTML=html}
-    function onFeatureClick(feature,nation,layer){const name=featureName(feature);if(quizActive){if(name===quizTarget.name&&nation===quizTarget.nation){quizActive=false;layer.setStyle({fillColor:'#63bd82',fillOpacity:.9,weight:2.5});setStatus(`Правильно! <b>${escapeHtml(name)}</b> — ${DATA[nation].label}.`,'success');setTimeout(nextQuestion,1100)}else{setStatus(`Неверно. Вы выбрали <b>${escapeHtml(name)}</b>.`,'error');layer.setStyle({fillColor:'#ed9a76',fillOpacity:.82});setTimeout(()=>layers[nation].resetStyle(layer),700)}}else{layer.bindPopup(`<b>${escapeHtml(name)}</b><br>${DATA[nation].label}`).openPopup()}}
-    function visibleFeatures(){return currentNation==='all'?allFeatures:allFeatures.filter(f=>f.nation===currentNation)}
-    function fitMap(){const selected=Object.entries(layers).filter(([k])=>currentNation==='all'||k===currentNation).map(([,l])=>l);const group=L.featureGroup(selected);if(group.getLayers().length)map.fitBounds(group.getBounds().pad(.06))}
-    function filterMap(){currentNation=document.getElementById('nation').value;Object.entries(layers).forEach(([key,layer])=>{if(map.hasLayer(layer))map.removeLayer(layer);if(currentNation==='all'||currentNation===key)layer.addTo(map)});document.getElementById('map-heading').textContent=currentNation==='all'?'Великобритания и Северная Ирландия':DATA[currentNation].label;document.getElementById('region-count').textContent=`${visibleFeatures().length} единиц`;fitMap()}
-    function nextQuestion(){const choices=visibleFeatures();if(!choices.length)return;quizActive=true;quizTarget=choices[Math.floor(Math.random()*choices.length)];Object.entries(layers).forEach(([key,layer])=>{if(map.hasLayer(layer))layer.setStyle(styleFor(key))});quizTarget.layer.setStyle({color:'#102a43',weight:3,fillColor:'#f2b84b',fillOpacity:.9});quizTarget.layer.bringToFront();map.fitBounds(quizTarget.layer.getBounds().pad(.8),{maxZoom:7});setStatus(`Найдите на карте: <b>${escapeHtml(quizTarget.name)}</b> <span style="color:#617381">(${DATA[quizTarget.nation].label})</span>`)}
-    async function loadNation(key){const cfg=DATA[key],res=await fetch(cfg.url);if(!res.ok)throw new Error(res.status);const geo=await res.json();const layer=L.geoJSON(geo,{style:()=>styleFor(key),onEachFeature:(feature,l)=>{l.on('click',()=>onFeatureClick(feature,key,l));l.bindTooltip(featureName(feature),{sticky:true,direction:'top'});allFeatures.push({feature,nation:key,name:featureName(feature),layer:l})}});layers[key]=layer}
-    document.getElementById('nation').addEventListener('change',()=>{quizActive=false;filterMap();setStatus('Нажмите на область, чтобы увидеть название.')});
-    document.getElementById('fit').addEventListener('click',fitMap);
-    document.getElementById('study').addEventListener('click',()=>{quizActive=false;Object.entries(layers).forEach(([key,layer])=>map.hasLayer(layer)&&layer.setStyle(styleFor(key)));setStatus('Режим изучения: нажмите на область.')});
-    document.getElementById('start').addEventListener('click',nextQuestion);
-    Promise.all(Object.keys(DATA).map(loadNation)).then(()=>{document.getElementById('loading').remove();filterMap();setStatus('Карта готова. Начните викторину или нажмите на область.')}).catch(err=>{document.getElementById('loading').textContent='Не удалось загрузить границы';console.error(err);setStatus('Ошибка загрузки данных карты.','error')});
-  </script>
+<header><div class="brand">UK <span>Country Studies</span></div><div class="tag">English Olympiad · Geography</div></header>
+<main>
+<div class="tag">Interactive atlas / United Kingdom</div>
+<h1>Explore the United Kingdom</h1>
+<p class="subtitle">Four constituent countries. Select a country on the map to explore its geography, culture and key facts.</p>
+<div class="workspace">
+<section class="map-shell" aria-label="Interactive map of the four UK countries">
+<svg id="map" viewBox="0 0 760 650" role="group" aria-label="Map of England, Scotland, Wales and Northern Ireland"></svg>
+<div class="loading" id="loading" role="status">Loading UK boundaries…</div>
+<div class="legend" aria-label="Map legend">
+<div><i class="dot" style="background:#88b8aa"></i>England</div>
+<div><i class="dot" style="background:#89a9d4"></i>Scotland</div>
+<div><i class="dot" style="background:#e5be7d"></i>Wales</div>
+<div><i class="dot" style="background:#cba0ba"></i>Northern Ireland</div>
+</div>
+</section>
+<aside class="side">
+<section class="panel" id="details" hidden aria-live="polite"><button class="close" id="close" aria-label="Close details">✕</button><div class="eyebrow">Country profile</div><h2 id="country-name"></h2><p id="country-intro"></p><div id="facts"></div></section>
+<section class="panel" id="chooser"><div class="eyebrow">Choose a country</div><h2>Four nations</h2><p>Click a coloured area or select a country below.</p><div id="buttons"></div></section>
+<p class="note">Only the four constituent countries of the UK are displayed. No basemap or neighbouring countries.</p>
+</aside>
+</div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/d3-geo@3/dist/d3-geo.min.js"></script>
+<script>
+"use strict";
+const COUNTRIES={
+eng:{name:"England",capital:"London",color:"#88b8aa",intro:"The largest constituent country by population, occupying the south and east of Great Britain.",symbol:"Red rose · St George's Cross",landscape:"The Pennines, Lake District, River Thames and English Channel",landmarks:"Stonehenge, Tower of London, Westminster Abbey",fact:"London is both the capital of England and of the United Kingdom.",url:"https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/administrative/eng/lad.json"},
+sco:{name:"Scotland",capital:"Edinburgh",color:"#89a9d4",intro:"The northern part of Great Britain, known for its Highlands, lochs and islands.",symbol:"Thistle · St Andrew's Saltire",landscape:"Scottish Highlands, Ben Nevis, Loch Ness and the Hebrides",landmarks:"Edinburgh Castle, Stirling Castle, the Royal Mile",fact:"Ben Nevis is the highest mountain in the United Kingdom.",url:"https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/administrative/sco/lad.json"},
+wal:{name:"Wales",capital:"Cardiff",color:"#e5be7d",intro:"A mountainous country in western Great Britain with a strong Welsh-language tradition.",symbol:"Red dragon · Daffodil · Leek",landscape:"Eryri (Snowdonia), Yr Wyddfa (Snowdon) and the Brecon Beacons",landmarks:"Caernarfon Castle, Cardiff Castle, Conwy Castle",fact:"Welsh and English are official languages in Wales.",url:"https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/administrative/wal/lad.json"},
+ni:{name:"Northern Ireland",capital:"Belfast",color:"#cba0ba",intro:"The part of the United Kingdom located in the north-east of the island of Ireland.",symbol:"Flax flower · St Patrick's association",landscape:"Lough Neagh, the Mourne Mountains and the Antrim Coast",landmarks:"Giant's Causeway, Titanic Belfast, Carrick-a-Rede",fact:"Northern Ireland is part of the UK, while the Republic of Ireland is a separate state.",url:"https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/administrative/ni/lgd.json"}
+};
+const svg=document.getElementById("map"),loading=document.getElementById("loading"),NS="http://www.w3.org/2000/svg";
+let selected=null;
+function addFact(label,value){const row=document.createElement("div");row.className="fact";const b=document.createElement("b");b.textContent=label;const span=document.createElement("span");span.textContent=value;row.append(b,span);document.getElementById("facts").append(row)}
+function selectCountry(key){selected=key;const c=COUNTRIES[key];document.getElementById("details").hidden=false;document.getElementById("country-name").textContent=c.name;document.getElementById("country-intro").textContent=c.intro;document.getElementById("facts").replaceChildren();addFact("Capital",c.capital);addFact("Symbols",c.symbol);addFact("Physical geography",c.landscape);addFact("Famous landmarks",c.landmarks);addFact("Olympiad fact",c.fact);document.querySelectorAll(".nation").forEach(el=>el.classList.toggle("selected",el.dataset.key===key));document.querySelectorAll(".nation-button").forEach(el=>el.classList.toggle("active",el.dataset.key===key));if(innerWidth<900)document.getElementById("details").scrollIntoView({behavior:"smooth",block:"nearest"})}
+function clearSelection(){selected=null;document.getElementById("details").hidden=true;document.querySelectorAll(".selected,.nation-button.active").forEach(el=>el.classList.remove("selected","active"))}
+document.getElementById("close").addEventListener("click",clearSelection);
+Object.entries(COUNTRIES).forEach(([key,c])=>{const b=document.createElement("button");b.type="button";b.className="nation-button";b.dataset.key=key;b.textContent=c.name+"  ·  "+c.capital;b.addEventListener("click",()=>selectCountry(key));document.getElementById("buttons").append(b)});
+async function init(){
+try{
+if(!window.d3||!d3.geoMercator)throw Error("Map engine unavailable");
+const entries=await Promise.all(Object.entries(COUNTRIES).map(async ([key,c])=>{const response=await fetch(c.url);if(!response.ok)throw Error("Boundary download failed: "+c.name);const geo=await response.json();if(!geo.features?.length)throw Error("Missing boundaries: "+c.name);return [key,geo]}));
+const all={type:"FeatureCollection",features:entries.flatMap(([,geo])=>geo.features)};
+const projection=d3.geoMercator().fitExtent([[76,30],[684,616]],all);
+const path=d3.geoPath(projection);
+svg.replaceChildren();
+for(const [key,geo] of entries){
+const c=COUNTRIES[key],g=document.createElementNS(NS,"g");g.classList.add("nation");g.dataset.key=key;g.setAttribute("tabindex","0");g.setAttribute("role","button");g.setAttribute("aria-label","Explore "+c.name);g.addEventListener("click",()=>selectCountry(key));g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectCountry(key)}});
+for(const feature of geo.features){const p=document.createElementNS(NS,"path");p.setAttribute("d",path(feature)||"");p.setAttribute("fill",c.color);p.setAttribute("stroke",c.color);p.setAttribute("stroke-width","0.75");g.append(p)}
+const title=document.createElementNS(NS,"title");title.textContent=c.name;g.append(title);svg.append(g)}
+loading.remove();
+}catch(error){console.error(error);loading.className="loading map-error";loading.textContent="Unable to load the UK map. Check your connection and try again.";const retry=document.createElement("button");retry.textContent="Retry";retry.addEventListener("click",()=>{loading.textContent="Loading UK boundaries…";init()});loading.append(retry)}
+}
+init();
+</script>
 </body>
 </html>
