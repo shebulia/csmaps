@@ -1,0 +1,318 @@
+{
+  "eng": {
+    "sections": [
+      [
+        "Geography & landmarks",
+        [
+          [
+            "Regions",
+            "The Midlands, East Anglia, the West Country, the North of England and the South East are geographical/cultural areas, not constituent countries."
+          ],
+          [
+            "Rivers",
+            "The Thames flows through London; the Severn is the longest river in the UK."
+          ],
+          [
+            "Relief",
+            "The Pennines are often called the backbone of England; Scafell Pike is England’s highest mountain."
+          ],
+          [
+            "Sites",
+            "Stonehenge (prehistoric monument), Hadrian’s Wall (Roman frontier), Canterbury Cathedral (medieval pilgrimage)."
+          ]
+        ]
+      ],
+      [
+        "History & institutions",
+        [
+          [
+            "1066",
+            "The Norman Conquest followed William of Normandy’s victory at the Battle of Hastings."
+          ],
+          [
+            "1215",
+            "Magna Carta was sealed by King John at Runnymede; its later constitutional importance is greater than its immediate effects."
+          ],
+          [
+            "1534",
+            "The Act of Supremacy recognised Henry VIII as Supreme Head of the Church of England."
+          ],
+          [
+            "1649–1660",
+            "England was a republic/Commonwealth and then Protectorate before the Restoration of the monarchy."
+          ],
+          [
+            "1707",
+            "The Acts of Union united the kingdoms of England (including Wales) and Scotland as Great Britain."
+          ]
+        ]
+      ],
+      [
+        "Culture & symbols",
+        [
+          [
+            "Patron saint",
+            "St George; St George’s Day is 23 April."
+          ],
+          [
+            "Flag",
+            "St George’s Cross: a red cross on white."
+          ],
+          [
+            "Emblem",
+            "The Tudor rose combines the red rose of Lancaster and the white rose of York."
+          ],
+          [
+            "Literature",
+            "Geoffrey Chaucer wrote The Canterbury Tales; William Shakespeare is associated with Stratford-upon-Avon and the Globe Theatre."
+          ]
+        ]
+      ]
+    ],
+    "challenge": {
+      "q": "Which 1215 document is associated with King John and Runnymede?",
+      "options": [
+        "Bill of Rights",
+        "Magna Carta",
+        "Act of Union",
+        "Domesday Book"
+      ],
+      "correct": 1,
+      "why": "Magna Carta was sealed in 1215; the Bill of Rights dates to 1689."
+    }
+  },
+  "sco": {
+    "sections": [
+      [
+        "Geography & landmarks",
+        [
+          [
+            "Regions",
+            "Highlands and Lowlands are broad geographical divisions; the Hebrides, Orkney and Shetland are major island groups."
+          ],
+          [
+            "Peaks",
+            "Ben Nevis is the highest mountain in the UK."
+          ],
+          [
+            "Water",
+            "Loch Ness is famous for its legend; Loch Lomond is a major freshwater loch."
+          ],
+          [
+            "Cities",
+            "Edinburgh is the capital; Glasgow is Scotland’s largest city."
+          ]
+        ]
+      ],
+      [
+        "History & institutions",
+        [
+          [
+            "1314",
+            "Robert the Bruce defeated English forces at the Battle of Bannockburn."
+          ],
+          [
+            "1603",
+            "James VI of Scotland became James I of England, creating a union of crowns, not yet a single state."
+          ],
+          [
+            "1707",
+            "The Acts of Union created the Kingdom of Great Britain."
+          ],
+          [
+            "1999",
+            "The devolved Scottish Parliament opened following the 1997 referendum and the Scotland Act 1998."
+          ]
+        ]
+      ],
+      [
+        "Culture & symbols",
+        [
+          [
+            "Patron saint",
+            "St Andrew; St Andrew’s Day is 30 November."
+          ],
+          [
+            "Flag",
+            "The Saltire: a white diagonal cross on blue."
+          ],
+          [
+            "Emblem",
+            "The thistle; the unicorn is Scotland’s heraldic animal."
+          ],
+          [
+            "Literature",
+            "Robert Burns wrote Auld Lang Syne; Sir Walter Scott wrote historical novels including Ivanhoe."
+          ]
+        ]
+      ]
+    ],
+    "challenge": {
+      "q": "What happened in 1603?",
+      "options": [
+        "The Acts of Union were passed",
+        "James VI of Scotland inherited the English throne",
+        "The Scottish Parliament was established",
+        "The Battle of Bannockburn took place"
+      ],
+      "correct": 1,
+      "why": "1603 was the Union of the Crowns; political union followed in 1707."
+    }
+  },
+  "wal": {
+    "sections": [
+      [
+        "Geography & landmarks",
+        [
+          [
+            "Relief",
+            "Eryri (Snowdonia) is a mountainous region; Yr Wyddfa (Snowdon) is Wales’s highest mountain."
+          ],
+          [
+            "Parks",
+            "Eryri, Bannau Brycheiniog (Brecon Beacons) and Pembrokeshire Coast are national parks."
+          ],
+          [
+            "Cities",
+            "Cardiff is the capital; Swansea and Newport are other major cities."
+          ],
+          [
+            "Castles",
+            "Caernarfon, Conwy, Beaumaris and Harlech castles are part of a UNESCO World Heritage Site."
+          ]
+        ]
+      ],
+      [
+        "History & institutions",
+        [
+          [
+            "1282–1283",
+            "Edward I conquered the principality ruled by Llywelyn ap Gruffudd; English rule expanded."
+          ],
+          [
+            "1535–1542",
+            "The Laws in Wales Acts integrated Wales more fully into the English legal and administrative system."
+          ],
+          [
+            "1999",
+            "The National Assembly for Wales first met; the institution is now called the Senedd (Welsh Parliament)."
+          ]
+        ]
+      ],
+      [
+        "Culture & symbols",
+        [
+          [
+            "Patron saint",
+            "St David; St David’s Day is 1 March."
+          ],
+          [
+            "Flag",
+            "A red dragon on a white-and-green field; the dragon is not represented separately on the Union Flag."
+          ],
+          [
+            "Emblems",
+            "The daffodil and the leek."
+          ],
+          [
+            "Language",
+            "Welsh (Cymraeg) and English are official languages in Wales."
+          ],
+          [
+            "Tradition",
+            "The Eisteddfod is a festival and competition of literature, music and performance."
+          ]
+        ]
+      ]
+    ],
+    "challenge": {
+      "q": "Which symbol appears on the Welsh national flag?",
+      "options": [
+        "A white saltire",
+        "A red dragon",
+        "A red cross",
+        "A gold harp"
+      ],
+      "correct": 1,
+      "why": "The red dragon is central to the flag of Wales."
+    }
+  },
+  "ni": {
+    "sections": [
+      [
+        "Geography & landmarks",
+        [
+          [
+            "Geography",
+            "Northern Ireland occupies the north-east of the island of Ireland; the Republic of Ireland is a separate state."
+          ],
+          [
+            "Water",
+            "Lough Neagh is the largest freshwater lake by area in the British Isles."
+          ],
+          [
+            "Coast",
+            "The Giant’s Causeway in County Antrim is a UNESCO World Heritage Site with basalt columns."
+          ],
+          [
+            "Cities",
+            "Belfast is the capital; Derry/Londonderry is another major city."
+          ]
+        ]
+      ],
+      [
+        "History & institutions",
+        [
+          [
+            "1801",
+            "The United Kingdom of Great Britain and Ireland was formed."
+          ],
+          [
+            "1921–1922",
+            "Partition left six north-eastern counties within the UK; the Irish Free State emerged in 1922."
+          ],
+          [
+            "1998",
+            "The Belfast/Good Friday Agreement provided a framework for power-sharing and the peace process."
+          ],
+          [
+            "Devolution",
+            "The Northern Ireland Assembly meets at Parliament Buildings, Stormont."
+          ]
+        ]
+      ],
+      [
+        "Culture & symbols",
+        [
+          [
+            "Patron saint",
+            "St Patrick is strongly associated with Ireland as a whole; St Patrick’s Day is 17 March."
+          ],
+          [
+            "Symbols",
+            "The flax flower and shamrock are cultural symbols; their use and political associations vary."
+          ],
+          [
+            "Flag distinction",
+            "Northern Ireland has no single officially adopted regional flag for general use. The former Ulster Banner is historical and politically sensitive."
+          ],
+          [
+            "Literature",
+            "C. S. Lewis was born in Belfast; Seamus Heaney was born in County Londonderry."
+          ]
+        ]
+      ]
+    ],
+    "challenge": {
+      "q": "Which agreement is associated with the 1998 peace process?",
+      "options": [
+        "The Treaty of Versailles",
+        "The Belfast/Good Friday Agreement",
+        "The Acts of Union 1707",
+        "Magna Carta"
+      ],
+      "correct": 1,
+      "why": "The Belfast/Good Friday Agreement was reached in 1998."
+    }
+  }
+}
