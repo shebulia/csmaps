@@ -54,6 +54,8 @@ p{line-height:1.55}
 @media(max-width:850px){.workspace{grid-template-columns:1fr}.map-shell{min-height:520px}.map-shell svg{height:540px}.side{gap:12px}}
 @media(max-width:600px){header{height:56px;padding:0 16px}main{padding:26px 15px 45px}.map-shell{min-height:480px}.map-shell svg{height:480px}.map-footer{flex-direction:column;gap:16px;padding:14px 2px}.legend{gap:9px 13px}.modal-backdrop{align-items:flex-end;padding:0}.modal-card{width:100%;max-height:85dvh;padding:26px 22px;border:0;border-top:1px solid #dce2e5;transform:translateY(100%)}}
 @media(prefers-reduced-motion:reduce){.modal-backdrop,.modal-card,.nation path{transition:none}}
+
+.profile-section{padding:17px 0;border-top:1px solid #e2e6e8}.profile-section h3{font-size:15px;font-weight:700;margin:0 0 12px}.profile-entry{margin:0 0 12px}.profile-entry dt{font-size:12px;font-weight:700;color:#2d3d47;margin-bottom:3px}.profile-entry dd{font-size:13px;line-height:1.55;color:#53626d;margin:0}.modal-card{width:min(100%,620px)}.symbol-gallery{display:flex;flex-wrap:wrap;gap:12px;padding:16px 0 20px}.symbol-item{width:95px;margin:0;text-align:center}.symbol-item img{width:88px;height:60px;object-fit:contain;background:#f5f7f8;border:1px solid #e1e6e9;padding:5px}.symbol-item figcaption{font-size:11px;color:#53616b;line-height:1.35;margin-top:6px}.quiz{margin-top:18px;padding-top:18px;border-top:1px solid #dfe5e8}.quiz h3{font-size:15px;margin:0 0 10px}.quiz p{font-size:13px}.quiz-options{display:grid;gap:7px}.quiz-options button{border:1px solid #d6dfe3;background:white;text-align:left;padding:10px 12px;cursor:pointer;font-size:13px}.quiz-options button:hover{background:#f3f6f7}.quiz-options button.correct{border-color:#40795d;background:#edf7f0}.quiz-options button.incorrect{border-color:#a96060;background:#fbefef}.quiz-result{font-size:12px;margin-top:10px;color:#394c57}.sources{font-size:12px;color:#5d6b75;margin-top:18px}.sources a{color:#315e7d;text-decoration:underline}.profile-disclaimer{font-size:12px;color:#697780;border-top:1px solid #e1e6e8;padding-top:12px}
 </style>
 </head>
 <body>
@@ -61,7 +63,7 @@ p{line-height:1.55}
 <main>
 <div class="tag">United Kingdom / Political geography</div>
 <h1>Explore the United Kingdom</h1>
-<p class="subtitle">Select a country to view its capital, geography and cultural facts.</p>
+<p class="subtitle">Explore geography, historical turning points, national symbols and olympiad-style practice.</p>
 <div class="workspace">
 <div class="map-column"><section class="map-shell" aria-label="Interactive map of the four UK countries">
 <svg id="map" viewBox="0 0 760 650" role="group" aria-label="Map of England, Scotland, Wales and Northern Ireland"></svg>
@@ -78,7 +80,7 @@ p{line-height:1.55}
 <p class="note">UK boundaries: jhellingsdata/map-data. Republic of Ireland: Natural Earth GeoJSON coastline.</p>
 </aside>
 </div>
-</main><div id="modal" class="modal-backdrop" aria-hidden="true"><section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="country-name"><button class="modal-close" id="close" aria-label="Close country information">×</button><div id="modal-accent" class="modal-accent"></div><div class="eyebrow" style="margin-top:18px">Country profile · UK</div><h2 id="country-name"></h2><p id="country-intro"></p><div id="facts"></div></section></div>
+</main><div id="modal" class="modal-backdrop" aria-hidden="true"><section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="country-name"><button class="modal-close" id="close" aria-label="Close country information">×</button><div id="modal-accent" class="modal-accent"></div><div class="eyebrow" style="margin-top:18px">Olympiad country studies · UK</div><h2 id="country-name"></h2><p id="country-intro"></p><div id="facts"></div><div id="symbol-gallery" class="symbol-gallery"></div><div id="advanced-content"></div><div id="quiz"></div><p class="profile-disclaimer">Reference notes and original practice questions, not official olympiad tasks. Topics and difficulty vary by stage and region.</p><div class="sources">Sources: <a href="https://vserosolimp.edsoo.ru/anglyaz" target="_blank" rel="noopener noreferrer">Official VsOSh English archive</a> · <a href="https://xn--l1afu.xn--p1ai/" target="_blank" rel="noopener noreferrer">CPM olympiad resources</a></div></section></div>
 
 <script>
 "use strict";
@@ -89,15 +91,57 @@ wal:{name:"Wales",capital:"Cardiff",color:"#e5be7d",intro:"A mountainous country
 ni:{name:"Northern Ireland",capital:"Belfast",color:"#cba0ba",intro:"The part of the United Kingdom located in the north-east of the island of Ireland.",symbol:"Flax flower · St Patrick's association",landscape:"Lough Neagh, the Mourne Mountains and the Antrim Coast",landmarks:"Giant's Causeway, Titanic Belfast, Carrick-a-Rede",fact:"Northern Ireland is part of the UK, while the Republic of Ireland is a separate state.",url:"https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/administrative/ni/lgd.json"}
 };
 const CAPITALS=[{name:"London",coords:[-0.1276,51.5072],dx:10,dy:-9},{name:"Edinburgh",coords:[-3.1883,55.9533],dx:10,dy:-9},{name:"Cardiff",coords:[-3.1791,51.4816],dx:-10,dy:-9,anchor:"end"},{name:"Belfast",coords:[-5.9301,54.5973],dx:10,dy:-9},{name:"Dublin",coords:[-6.2603,53.3498],dx:-10,dy:16,anchor:"end"}];
+const SYMBOLS={
+eng:[["St George’s Cross","https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_England.svg"],["Tudor rose","https://commons.wikimedia.org/wiki/Special:FilePath/Tudor_rose.svg"]],
+sco:[["Saltire","https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_Scotland.svg"],["Scottish thistle","https://commons.wikimedia.org/wiki/Special:FilePath/Thistle.svg"]],
+wal:[["Welsh dragon flag","https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_Wales.svg"],["Daffodil","https://commons.wikimedia.org/wiki/Special:FilePath/Narcissus_pseudonarcissus_1.jpg"]],
+ni:[["Flax flower","https://commons.wikimedia.org/wiki/Special:FilePath/Linum_usitatissimum_flower.jpg"],["Shamrock","https://commons.wikimedia.org/wiki/Special:FilePath/Shamrock.svg"]]
+};
+let OLYMPIAD={};
+function renderOlympiad(key){
+ const gallery=document.getElementById("symbol-gallery");gallery.replaceChildren();
+ for(const [label,url] of SYMBOLS[key]||[]){
+   const figure=document.createElement("figure");figure.className="symbol-item";
+   const img=document.createElement("img");img.src=url;img.alt=label;img.loading="lazy";img.referrerPolicy="no-referrer";
+   img.addEventListener("error",()=>{img.style.display="none";figure.style.display="none"});
+   const caption=document.createElement("figcaption");caption.textContent=label;figure.append(img,caption);gallery.append(figure);
+ }
+ const advanced=document.getElementById("advanced-content");advanced.replaceChildren();
+ const quiz=document.getElementById("quiz");quiz.replaceChildren();
+ const content=OLYMPIAD[key];
+ if(!content){const p=document.createElement("p");p.textContent="Extended reference notes are unavailable.";advanced.append(p);return}
+ for(const [heading,entries] of content.sections){
+   const section=document.createElement("section");section.className="profile-section";
+   const h=document.createElement("h3");h.textContent=heading;section.append(h);
+   const dl=document.createElement("dl");
+   for(const [term,description] of entries){
+     const div=document.createElement("div");div.className="profile-entry";
+     const dt=document.createElement("dt");dt.textContent=term;
+     const dd=document.createElement("dd");dd.textContent=description;
+     div.append(dt,dd);dl.append(div);
+   }section.append(dl);advanced.append(section);
+ }
+ const q=content.challenge;const box=document.createElement("section");box.className="quiz";
+ const title=document.createElement("h3");title.textContent="Olympiad-style practice";box.append(title);
+ const question=document.createElement("p");question.textContent=q.q;box.append(question);
+ const options=document.createElement("div");options.className="quiz-options";
+ const result=document.createElement("p");result.className="quiz-result";result.setAttribute("aria-live","polite");
+ q.options.forEach((answer,i)=>{const button=document.createElement("button");button.type="button";button.textContent=String.fromCharCode(65+i)+". "+answer;button.addEventListener("click",()=>{
+ options.querySelectorAll("button").forEach((b,j)=>{b.disabled=true;if(j===q.correct)b.classList.add("correct");else if(j===i)b.classList.add("incorrect")});
+ result.textContent=(i===q.correct?"Correct. ":"Not quite. ")+q.why;
+ });options.append(button)});
+ box.append(options,result);quiz.append(box);
+}
 const svg=document.getElementById("map"),loading=document.getElementById("loading"),NS="http://www.w3.org/2000/svg";
 let selected=null,lastFocused=null;const modal=document.getElementById("modal");
 function addFact(label,value){const row=document.createElement("div");row.className="fact";const b=document.createElement("b");b.textContent=label;const span=document.createElement("span");span.textContent=value;row.append(b,span);document.getElementById("facts").append(row)}
-function selectCountry(key){if(!COUNTRIES[key])return;lastFocused=document.activeElement;selected=key;const c=COUNTRIES[key];document.getElementById("modal-accent").style.background=c.color;document.getElementById("country-name").textContent=c.name;document.getElementById("country-intro").textContent=c.intro;document.getElementById("facts").replaceChildren();addFact("Capital",c.capital);addFact("Symbols",c.symbol);addFact("Physical geography",c.landscape);addFact("Famous landmarks",c.landmarks);addFact("Olympiad fact",c.fact);document.querySelectorAll(".nation").forEach(el=>el.classList.toggle("selected",el.dataset.key===key));document.querySelectorAll(".nation-button").forEach(el=>el.classList.toggle("active",el.dataset.key===key));modal.classList.add("open");modal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";document.getElementById("close").focus()}
+function selectCountry(key){if(!COUNTRIES[key])return;lastFocused=document.activeElement;selected=key;const c=COUNTRIES[key];document.getElementById("modal-accent").style.background=c.color;document.getElementById("country-name").textContent=c.name;document.getElementById("country-intro").textContent=c.intro;document.getElementById("facts").replaceChildren();addFact("Capital",c.capital);addFact("Symbols",c.symbol);addFact("Physical geography",c.landscape);addFact("Famous landmarks",c.landmarks);addFact("Olympiad fact",c.fact);renderOlympiad(key);document.querySelectorAll(".nation").forEach(el=>el.classList.toggle("selected",el.dataset.key===key));document.querySelectorAll(".nation-button").forEach(el=>el.classList.toggle("active",el.dataset.key===key));modal.classList.add("open");modal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";document.getElementById("close").focus()}
 function clearSelection(){selected=null;modal.classList.remove("open");modal.setAttribute("aria-hidden","true");document.body.style.overflow="";document.querySelectorAll(".selected,.nation-button.active").forEach(el=>el.classList.remove("selected","active"));if(lastFocused&&lastFocused.focus)lastFocused.focus()}
 document.getElementById("close").addEventListener("click",clearSelection);modal.addEventListener("click",event=>{if(event.target===modal)clearSelection()});document.addEventListener("keydown",event=>{if(event.key==="Escape"&&selected)clearSelection();if(event.key==="Tab"&&selected){const focusable=[...modal.querySelectorAll("button:not([disabled])")];if(!focusable.length)return;event.preventDefault();focusable[0].focus()}});
 Object.entries(COUNTRIES).forEach(([key,c])=>{const b=document.createElement("button");b.type="button";b.className="nation-button";b.dataset.key=key;b.textContent=c.name+"  ·  "+c.capital;b.addEventListener("click",()=>selectCountry(key));document.getElementById("buttons").append(b)});
 async function init(){
  try {
+  try{const study=await fetch("./olympiad-content.json");if(study.ok)OLYMPIAD=await study.json()}catch(error){console.warn("Extended content unavailable",error)}
   const [response,irelandResponse]=await Promise.all([fetch("./uk-countries.topo.json"),fetch("./ireland.geojson")]);
   if(!response.ok)throw Error("Boundary file missing ("+response.status+")");
   const topo=await response.json();if(!irelandResponse.ok)throw Error("Ireland boundary missing ("+irelandResponse.status+")");const irelandGeo=await irelandResponse.json();
