@@ -29,7 +29,7 @@
 <aside class="side">
 <section class="panel" id="details" hidden aria-live="polite"><button class="close" id="close" aria-label="Close details">✕</button><div class="eyebrow">Country profile</div><h2 id="country-name"></h2><p id="country-intro"></p><div id="facts"></div></section>
 <section class="panel" id="chooser"><div class="eyebrow">Choose a country</div><h2>Four nations</h2><p>Click a coloured area or select a country below.</p><div id="buttons"></div></section>
-<p class="note">Schematic study map of the four UK countries. Borders and coastlines are simplified, not survey-accurate.</p>
+<p class="note">Geographic boundaries: UK countries TopoJSON, jhellingsdata/map-data (ONS-derived).</p>
 </aside>
 </div>
 </main>
@@ -49,58 +49,53 @@ function selectCountry(key){selected=key;const c=COUNTRIES[key];document.getElem
 function clearSelection(){selected=null;document.getElementById("details").hidden=true;document.querySelectorAll(".selected,.nation-button.active").forEach(el=>el.classList.remove("selected","active"))}
 document.getElementById("close").addEventListener("click",clearSelection);
 Object.entries(COUNTRIES).forEach(([key,c])=>{const b=document.createElement("button");b.type="button";b.className="nation-button";b.dataset.key=key;b.textContent=c.name+"  ·  "+c.capital;b.addEventListener("click",()=>selectCountry(key));document.getElementById("buttons").append(b)});
-function init(){
-  // Self-contained, schematic SVG: no tile server, CDN, or external GeoJSON.
-  // Shapes are deliberately simplified for reliable offline country selection.
-  const shapes={
-    sco:[
-      "M 390 70 L 416 81 429 103 417 120 438 138 429 155 444 176 432 194 451 207 439 227 460 245 450 266 466 286 450 304 432 315 413 305 392 315 374 298 354 306 337 290 342 269 322 254 333 232 320 214 333 195 318 177 339 163 333 143 350 130 343 109 361 94 365 76 Z",
-      "M 313 145 L 327 151 322 169 308 176 299 161 Z",
-      "M 300 187 L 313 193 308 209 295 212 288 199 Z",
-      "M 345 63 L 357 58 363 68 353 76 Z",
-      "M 377 45 L 389 42 395 51 385 57 Z"
-    ],
-    eng:[
-      "M 413 305 L 432 315 450 304 463 321 457 345 469 361 459 383 471 399 461 422 473 442 462 462 475 482 468 505 480 520 470 539 450 547 432 562 410 559 392 573 374 568 356 580 339 570 346 554 367 542 381 522 397 511 392 491 409 476 405 456 415 440 404 425 408 405 393 392 396 373 382 356 392 336 384 320 392 315 Z",
-      "M 333 568 L 342 575 330 584 316 581 Z"
-    ],
-    wal:[
-      "M 382 356 L 393 392 408 405 404 425 415 440 405 456 409 476 392 491 397 511 381 522 367 542 346 554 325 545 317 527 324 511 313 494 324 481 317 462 332 450 328 430 343 414 338 394 355 381 360 363 Z"
-    ],
-    ni:[
-      "M 240 334 L 258 320 278 326 291 316 311 328 313 348 301 360 308 378 292 393 273 387 256 401 237 389 223 396 211 378 216 361 205 348 222 335 Z"
-    ]
+async function init(){
+ try {
+  const response=await fetch("./uk-countries.topo.json");
+  if(!response.ok)throw Error("Boundary file missing ("+response.status+")");
+  const topo=await response.json();
+  const decodeArc=index=>{
+    const source=topo.arcs[index<0?~index:index];
+    let x=0,y=0;
+    const points=source.map(pair=>{x+=pair[0];y+=pair[1];return [x*topo.transform.scale[0]+topo.transform.translate[0],y*topo.transform.scale[1]+topo.transform.translate[1]]});
+    return index<0?points.reverse():points;
   };
+  const ringsOf=indices=>indices.map(ring=>ring.flatMap((arc,i)=>{const points=decodeArc(arc);return i?points.slice(1):points}));
+  const geometries=topo.objects.geog.geometries;
+  const shapes=geometries.map(geometry=>({
+    key:{"England":"eng","Scotland":"sco","Wales":"wal","Northern Ireland":"ni"}[geometry.properties.name],
+    polygons:geometry.type==="Polygon"?[ringsOf(geometry.arcs)]:geometry.arcs.map(ringsOf)
+  }));
+  const coordinates=shapes.flatMap(shape=>shape.polygons.flat(2));
+  const lons=coordinates.map(p=>p[0]),lats=coordinates.map(p=>p[1]);
+  const minX=Math.min(...lons),maxX=Math.max(...lons),minY=Math.min(...lats),maxY=Math.max(...lats);
+  const cos=Math.cos(54*Math.PI/180),scale=Math.min(570/((maxX-minX)*cos),580/(maxY-minY));
+  const project=point=>[380+(point[0]-(minX+maxX)/2)*cos*scale,325-((point[1]-(minY+maxY)/2)*scale)];
   svg.replaceChildren();
-  for(const [key,paths] of Object.entries(shapes)){
-    const country=COUNTRIES[key];
-    const g=document.createElementNS(NS,"g");
-    g.classList.add("nation");
-    g.dataset.key=key;
-    g.setAttribute("tabindex","0");
-    g.setAttribute("role","button");
-    g.setAttribute("aria-label","Explore "+country.name);
-    for(const data of paths){
-      const p=document.createElementNS(NS,"path");
-      p.setAttribute("d",data);
-      p.setAttribute("fill",country.color);
-      p.setAttribute("stroke","#fff");
-      p.setAttribute("stroke-width","2.5");
-      g.append(p);
-    }
-    const title=document.createElementNS(NS,"title");
-    title.textContent=country.name;
-    g.append(title);
-    g.addEventListener("click",()=>selectCountry(key));
-    g.addEventListener("keydown",event=>{
-      if(event.key==="Enter"||event.key===" "){
-        event.preventDefault();
-        selectCountry(key);
-      }
-    });
-    svg.append(g);
+  for(const shape of shapes){
+   const country=COUNTRIES[shape.key];
+   if(!country)continue;
+   const group=document.createElementNS(NS,"g");
+   group.classList.add("nation");group.dataset.key=shape.key;
+   group.setAttribute("tabindex","0");group.setAttribute("role","button");
+   group.setAttribute("aria-label","Explore "+country.name);
+   for(const polygon of shape.polygons){
+    const path=document.createElementNS(NS,"path");
+    const d=polygon.map(ring=>ring.map((point,i)=>{const [x,y]=project(point);return(i?"L":"M")+x.toFixed(2)+" "+y.toFixed(2)}).join(" ")+" Z").join(" ");
+    path.setAttribute("d",d);path.setAttribute("fill",country.color);
+    path.setAttribute("fill-rule","evenodd");
+    path.setAttribute("stroke","#fff");path.setAttribute("stroke-width","0.8");
+    group.append(path);
+   }
+   const title=document.createElementNS(NS,"title");title.textContent=country.name;group.append(title);
+   group.addEventListener("click",()=>selectCountry(shape.key));
+   group.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectCountry(shape.key)}});
+   svg.append(group);
   }
   loading.remove();
+ }catch(error){
+  console.error(error);loading.textContent="Unable to display boundaries: "+error.message;
+ }
 }
 init();
 </script>
