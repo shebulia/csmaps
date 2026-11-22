@@ -26,9 +26,9 @@ p{line-height:1.55}
 .nation:hover path,.nation:focus-visible path{filter:brightness(.94)}
 .nation.selected path{stroke:#273c4d;stroke-width:2.3;filter:brightness(.96)}
 .loading{position:absolute;background:white;padding:12px 16px;border:1px solid #d9dfe2;color:#435360;font-size:13px}
-.legend{position:absolute;bottom:15px;left:15px;background:#fff;border:1px solid #dbe1e3;padding:12px 15px;display:grid;gap:9px;font-size:12px}
+.map-column{min-width:0}.map-footer{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding:16px 0}.legend{position:static;background:transparent;border:0;padding:0;display:flex;flex-wrap:wrap;gap:10px 17px;font-size:12px}
 .legend div{display:flex;align-items:center;gap:8px}
-.dot{width:10px;height:10px;display:inline-block}
+.dot{width:11px;height:11px;display:inline-block;border-radius:3px;flex-shrink:0}.capital-toggle{display:flex;align-items:center;gap:9px;white-space:nowrap;font-size:13px;color:#273b48;cursor:pointer}.capital-toggle input{width:16px;height:16px;accent-color:#315b7d;cursor:pointer}.capital-marker{pointer-events:none}.capital-marker circle{fill:#233e53;stroke:white;stroke-width:2}.capital-marker text{font:600 12px Arial,Helvetica,sans-serif;fill:#203545;stroke:#f4f7f7;stroke-width:3;paint-order:stroke;stroke-linejoin:round}
 .side{display:flex;flex-direction:column;gap:14px}
 .panel{padding:0;background:transparent;border:0}
 .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:#667781;font-weight:600;margin:0 0 12px}
@@ -52,7 +52,7 @@ p{line-height:1.55}
 .modal-accent{height:3px;width:36px;background:#88b8aa}
 .modal-card .eyebrow{margin-top:20px}
 @media(max-width:850px){.workspace{grid-template-columns:1fr}.map-shell{min-height:520px}.map-shell svg{height:540px}.side{gap:12px}}
-@media(max-width:600px){header{height:56px;padding:0 16px}main{padding:26px 15px 45px}.map-shell{min-height:480px}.map-shell svg{height:480px}.legend{bottom:10px;left:10px;padding:10px}.modal-backdrop{align-items:flex-end;padding:0}.modal-card{width:100%;max-height:85dvh;padding:26px 22px;border:0;border-top:1px solid #dce2e5;transform:translateY(100%)}}
+@media(max-width:600px){header{height:56px;padding:0 16px}main{padding:26px 15px 45px}.map-shell{min-height:480px}.map-shell svg{height:480px}.map-footer{flex-direction:column;gap:16px;padding:14px 2px}.legend{gap:9px 13px}.modal-backdrop{align-items:flex-end;padding:0}.modal-card{width:100%;max-height:85dvh;padding:26px 22px;border:0;border-top:1px solid #dce2e5;transform:translateY(100%)}}
 @media(prefers-reduced-motion:reduce){.modal-backdrop,.modal-card,.nation path{transition:none}}
 </style>
 </head>
@@ -63,16 +63,15 @@ p{line-height:1.55}
 <h1>Explore the United Kingdom</h1>
 <p class="subtitle">Select a country to view its capital, geography and cultural facts.</p>
 <div class="workspace">
-<section class="map-shell" aria-label="Interactive map of the four UK countries">
+<div class="map-column"><section class="map-shell" aria-label="Interactive map of the four UK countries">
 <svg id="map" viewBox="0 0 760 650" role="group" aria-label="Map of England, Scotland, Wales and Northern Ireland"></svg>
 <div class="loading" id="loading" role="status">Loading UK boundaries…</div>
-<div class="legend" aria-label="Map legend">
+</section><div class="map-footer"><div class="legend" aria-label="Map legend">
 <div><i class="dot" style="background:#88b8aa"></i>England</div>
 <div><i class="dot" style="background:#89a9d4"></i>Scotland</div>
 <div><i class="dot" style="background:#e5be7d"></i>Wales</div>
 <div><i class="dot" style="background:#cba0ba"></i>Northern Ireland</div><div><i class="dot" style="background:#c5cbd0"></i>Republic of Ireland (not UK)</div>
-</div>
-</section>
+</div><label class="capital-toggle"><input id="show-capitals" type="checkbox"><span>Show Capitals</span></label></div></div>
 <aside class="side">
 
 <section class="panel" id="chooser"><div class="eyebrow">Choose a country</div><h2>Four nations</h2><p>Select a country on the map or from the list.</p><div id="buttons"></div></section>
@@ -89,6 +88,7 @@ sco:{name:"Scotland",capital:"Edinburgh",color:"#89a9d4",intro:"The northern par
 wal:{name:"Wales",capital:"Cardiff",color:"#e5be7d",intro:"A mountainous country in western Great Britain with a strong Welsh-language tradition.",symbol:"Red dragon · Daffodil · Leek",landscape:"Eryri (Snowdonia), Yr Wyddfa (Snowdon) and the Brecon Beacons",landmarks:"Caernarfon Castle, Cardiff Castle, Conwy Castle",fact:"Welsh and English are official languages in Wales.",url:"https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/administrative/wal/lad.json"},
 ni:{name:"Northern Ireland",capital:"Belfast",color:"#cba0ba",intro:"The part of the United Kingdom located in the north-east of the island of Ireland.",symbol:"Flax flower · St Patrick's association",landscape:"Lough Neagh, the Mourne Mountains and the Antrim Coast",landmarks:"Giant's Causeway, Titanic Belfast, Carrick-a-Rede",fact:"Northern Ireland is part of the UK, while the Republic of Ireland is a separate state.",url:"https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/administrative/ni/lgd.json"}
 };
+const CAPITALS=[{name:"London",coords:[-0.1276,51.5072],dx:10,dy:-9},{name:"Edinburgh",coords:[-3.1883,55.9533],dx:10,dy:-9},{name:"Cardiff",coords:[-3.1791,51.4816],dx:-10,dy:-9,anchor:"end"},{name:"Belfast",coords:[-5.9301,54.5973],dx:10,dy:-9},{name:"Dublin",coords:[-6.2603,53.3498],dx:-10,dy:16,anchor:"end"}];
 const svg=document.getElementById("map"),loading=document.getElementById("loading"),NS="http://www.w3.org/2000/svg";
 let selected=null,lastFocused=null;const modal=document.getElementById("modal");
 function addFact(label,value){const row=document.createElement("div");row.className="fact";const b=document.createElement("b");b.textContent=label;const span=document.createElement("span");span.textContent=value;row.append(b,span);document.getElementById("facts").append(row)}
@@ -151,11 +151,29 @@ async function init(){
    group.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectCountry(shape.key)}});
    svg.append(group);
   }
+  const markers=document.createElementNS(NS,"g");
+  markers.id="capital-markers";
+  markers.setAttribute("aria-label","Capital city locations");
+  markers.style.display="none";
+  for(const city of CAPITALS){
+    const [x,y]=project(city.coords);
+    const g=document.createElementNS(NS,"g");g.classList.add("capital-marker");
+    const circle=document.createElementNS(NS,"circle");
+    circle.setAttribute("cx",x);circle.setAttribute("cy",y);circle.setAttribute("r","4.5");
+    const label=document.createElementNS(NS,"text");
+    label.setAttribute("x",x+city.dx);label.setAttribute("y",y+city.dy);
+    if(city.anchor)label.setAttribute("text-anchor",city.anchor);
+    label.textContent=city.name;
+    g.append(circle,label);markers.append(g);
+  }
+  svg.append(markers);
+  markers.style.display=document.getElementById("show-capitals").checked?"":"none";
   loading.remove();
  }catch(error){
   console.error(error);loading.textContent="Unable to display boundaries: "+error.message;
  }
 }
+document.getElementById("show-capitals").addEventListener("change",event=>{const markers=document.getElementById("capital-markers");if(markers)markers.style.display=event.target.checked?"":"none"});
 init();
 </script>
 </body>
